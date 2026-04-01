@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
  <link rel="stylesheet" href="style.css" type="text/css">
-  <title> Strona g?��wna - Oficjalna Strona FARM SHOP</title>
+  <title> Strona g?¨®wna - Oficjalna Strona FARM SHOP</title>
 
   <style>
     body { font-family: Arial; background:#f4f4f4; margin:0; padding:0; }
@@ -100,10 +100,10 @@
     <button id="kodBtn" onclick="pokazModal()">KOD</button>
 
     <ul class="menu" id="menu">
-      <li><a href="INDEX.html">Strona główna</a></li>
+      <li><a href="INDEX.html">Strona gÅ‚Ã³wna</a></li>
       <li><a href="onas.html">O Nas</a></li>
       <li><a href="kontakt.html">Kontakt</a></li>
-      <li><a href="tworcy.html">Twórcy</a></li>
+      <li><a href="tworcy.html">TwÃ³rcy</a></li>
       <li><a href="produkty.html">Produkty</a></li>
       <li><a href="KOSZYK.html">Koszyk</a></li>
     </ul>
@@ -113,17 +113,17 @@
 
   <section>
     <h1>Witaj na stronie FARM SHOP</h1>
-    <p>Rozpocznij zakupy lub wpisz kod, aby uzyskać dostęp do zamówień.</p>
+    <p>Rozpocznij zakupy lub wpisz kod, aby uzyskaÄ‡ dostÄ™p do zamÃ³wieÅ„.</p>
   </section>
 
-  <!-- 🔥 MODAL Z KODEM DOSTĘPU -->
+  <!-- ðŸ”¥ MODAL Z KODEM DOSTÄ˜PU -->
   <div id="hasloModal" class="modal">
     <div class="modal-content">
       <h2>Wpisz kod dost?pu</h2>
       <input type="password" id="kodInput" placeholder="Wpisz kod...">
 
       <div class="modal-buttons">
-        <button onclick="sprawdzKod()">Zatwierdź</button>
+        <button onclick="sprawdzKod()">ZatwierdÅº</button>
         <button onclick="zamknijModal()">Anuluj</button>
       </div>
     </div>
@@ -138,9 +138,9 @@
       const kod = document.getElementById("kodInput").value;
 
       if (kod === "1337") {
-        window.location.href = "zamowienie.html"; // <-- tu ustaw stronę zamówień
+        window.location.href = "zamowienie.html"; // <-- tu ustaw stronÄ™ zamÃ³wieÅ„
       } else {
-        alert("Błędny kod!");
+        alert("BÅ‚Ä™dny kod!");
       }
     }
 
