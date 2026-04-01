@@ -1,0 +1,235 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== IMPORT IKONEK ===== */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
+/* ===== BODY ===== */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #ececec, #fafafa);
+    color: #222;
+    overflow-x: hidden;
+}
+
+/* ===== HEADER ===== */
+header {
+    text-align: center;
+    padding: 25px 0;
+}
+
+header img {
+    width: 180px;
+    filter: drop-shadow(0 0 6px rgba(0,0,0,0.25));
+    transition: 0.3s;
+}
+
+header img:hover {
+    transform: scale(1.05);
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+    background: #1f1f1f;
+    padding: 12px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+}
+
+.menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.05em;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: 0.25s;
+    position: relative;
+}
+
+/* Ikonki w menu */
+.menu li:nth-child(1) a::before { content: "\f015"; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 8px; }
+.menu li:nth-child(2) a::before { content: "\f0c0"; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 8px; }
+.menu li:nth-child(3) a::before { content: "\f0e0"; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 8px; }
+.menu li:nth-child(4) a::before { content: "\f007"; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 8px; }
+.menu li:nth-child(5) a::before { content: "\f291"; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 8px; }
+.menu li:nth-child(6) a::before { content: "\f07a"; font-family: "Font Awesome 6 Free"; font-weight: 900; margin-right: 8px; }
+
+.menu li a:hover {
+    background: #ffd700;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+/* ===== SECTIONS ===== */
+section {
+    background: white;
+    max-width: 750px;
+    margin: 40px auto;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.12);
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: #333;
+}
+
+/* ===== BUTTONS ===== */
+button {
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-clear,
+.btn-zamow,
+.btn-remove,
+.btn-cofnij {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Ikonki przycisków */
+.btn-clear::before { content: "\f1f8"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+.btn-zamow::before { content: "\f07a"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+.btn-remove::before { content: "\f2ed"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+.btn-cofnij::before { content: "\f0e2"; font-family: "Font Awesome 6 Free"; font-weight: 900; }
+
+.btn-clear { background: #b30000; color: white; }
+.btn-clear:hover { background: #8a0000; transform: scale(1.05); }
+
+.btn-zamow { background: #008000; color: white; }
+.btn-zamow:hover { background: #006600; transform: scale(1.05); }
+
+.btn-remove { background: #cc0000; color: white; }
+.btn-remove:hover { background: #a30000; transform: scale(1.05); }
+
+.btn-cofnij { background: #cc0000; color: white; width: 100%; }
+.btn-cofnij:hover { background: #a30000; transform: scale(1.05); }
+
+/* ===== LISTA KOSZYKA ===== */
+ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 1.1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ===== MODAL ===== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 420px;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* ===== INPUTS ===== */
+.modal-content input {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+}
+
+/* ===== CLOSE X ===== */
+.close-x {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #444;
+    transition: 0.2s;
+}
+
+.close-x:hover {
+    color: #cc0000;
+    transform: rotate(90deg);
+}
+
+/* ===== TIMER ===== */
+#timer {
+    font-size: 1.3em;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #333;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.55; }
+    100% { opacity: 1; }
+}
+
+/* ===== SCROLLBAR ===== */
+#listaZamowien::-webkit-scrollbar {
+    width: 8px;
+}
+
+#listaZamowien::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+#listaZamowien::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

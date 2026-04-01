@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Duży Mysterybox  – Anarchia.gg</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <script>
+    function dodajDoKoszyka(nazwa, cena) {
+      let koszyk = JSON.parse(localStorage.getItem("koszyk")) || [];
+      koszyk.push({ nazwa, cena });
+      localStorage.setItem("koszyk", JSON.stringify(koszyk));
+      alert(nazwa + " dodano do koszyka!");
+    }
+  </script>
+</head>
+<body>
+	<header>
+		<img src="images/Logo.png">
+	</header>
+  <nav>
+<ul class="menu" id="menu">
+  <li><a href="INDEX.html">Strona główna</a></li>
+  <li><a href="onas.html">O Nas</a></li>
+  <li><a href="kontakt.html">Kontakt</a></li>
+  <li><a href="tworcy.html">Twórcy</a></li>
+  <li><a href="produkty.html">Produkty</a></li>
+  <li><a href="KOSZYK.html">Koszyk</a></li>
+</ul>
+<script>
+  window.onload = function () {
+    const menu = document.getElementById("menu");
+    const hasAccess = localStorage.getItem("hasAccess");
+
+    if (hasAccess === "true") {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = "zamowienie.html";
+      link.textContent = "Okienko zamówienia";
+      li.appendChild(link);
+      menu.appendChild(li);
+    }
+
+    if (typeof pokazKoszyk === "function") {
+      pokazKoszyk();
+    }
+  };
+</script>
+
+
+  </nav>
+  <section>
+    <h2>Duży Mysterybox </h2>
+	<ul>
+	<p>30% szansa na anarchiczną cześć seta II </p>
+	<p>50% szans na anarhiczną cześć seta I </p>
+	<p>50% na czek od 1000$ do 25000$ </p>
+	<p>100% na inne itemy (oddadzą)</p>
+	</ul>
+    <p><strong>Cena:</strong> 20000$ serwerowych</p>
+    <button onclick="dodajDoKoszyka('Duży Mysterybox ', 20000)">Dodaj do koszyka</button>
+  </section>
+</body>
+</html>

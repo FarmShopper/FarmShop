@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Kontakt – Deltymc</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+  </head>
+  <body>
+  	<header>
+		<img src="images/Logo.png">
+	</header>
+    <nav>
+ <ul class="menu" id="menu">
+   <li><a href="Index.html">strona głowna</a></li>
+  <li><a href="onas.html">O Nas</a></li>
+  <li><a href="kontakt.html">Kontakt</a></li>
+  <li><a href="tworcy.html">Twórcy</a></li>
+  <li><a href="produkty.html">Produkty</a></li>
+  <li><a href="KOSZYK.html">Koszyk</a></li>
+</ul>
+<script>
+  window.onload = function () {
+    const menu = document.getElementById("menu");
+    const hasAccess = localStorage.getItem("hasAccess");
+
+    if (hasAccess === "true") {
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = "zamowienie.html";
+      link.textContent = "Okienko zamówienia";
+      li.appendChild(link);
+      menu.appendChild(li);
+    }
+
+    if (typeof pokazKoszyk === "function") {
+      pokazKoszyk();
+    }
+  };
+</script>
+
+
+    </nav>
+
+    <section>
+      <h2>Kontakt</h2>
+      <p>Masz pytania, sugestie, problem lub chcesz złożyć zamówienie? Skontaktuj się z nami poprzez podany niżej email lub na discordzie.</p>
+      <ul>
+        <li>Email: <a href="mailto:kontakt@tpzo.pl">tpzo.kontakt@gmail.com</a></li>
+        <li>Discord: <a href="https://discord.gg/nnEUPWyPJ7" target="_blank">Dołącz do nas na Discordzie</a></li>
+      </ul>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zamówienia – Deltymc</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+    <style>
+        body { font-family: Arial; background:#f4f4f4; margin:0; padding:0; }
+        section {
+            padding:20px; background:white; max-width:700px; margin:30px auto;
+            border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+        .zamowienie { margin-bottom:30px; padding-bottom:20px; border-bottom:1px solid #ccc; }
+        .btn { padding:6px 10px; margin:5px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; color:white; }
+        .odbior { background:#0077cc; }
+        .zrealizowane { background:#009900; }
+        .oczekuje { background:#ffaa00; color:black; }
+        .usun { background:#cc0000; }
+        #listaZamowien { max-height:400px; overflow-y:auto; padding-right:10px; }
+    </style>
+
+    <script>
+        // Zabezpieczenie dostępu
+        if (localStorage.getItem("hasAccess") !== "true") {
+            window.location.href = "index.html";
+        }
+
+        function zapisz(zamowienia) {
+            localStorage.setItem("zamowienia", JSON.stringify(zamowienia));
+        }
+
+        function zmienStatus(id, status) {
+            let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
+
+            const index = zamowienia.findIndex(z => z.id === id);
+            if (index === -1) return;
+
+            zamowienia[index].status = status;
+            zapisz(zamowienia);
+            location.reload();
+        }
+
+        function usunZamowienie(id) {
+            let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
+
+            const index = zamowienia.findIndex(z => z.id === id);
+            if (index === -1) return;
+
+            zamowienia.splice(index, 1);
+            zapisz(zamowienia);
+            location.reload();
+        }
+
+        window.onload = function () {
+            const kontener = document.getElementById("listaZamowien");
+            let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
+
+            if (zamowienia.length === 0) {
+                kontener.innerHTML = "<p>Brak zamówień do wyświetlenia.</p>";
+                return;
+            }
+
+            // 🔥 DODAJ ID JEŚLI BRAK
+            zamowienia.forEach(z => {
+                if (!z.id) z.id = Date.now() + Math.random();
+            });
+            zapisz(zamowienia);
+
+            // 🔥 SORTOWANIE
+            zamowienia.sort((a, b) => {
+                const sumaA = a.produkty.reduce((s, p) => s + Number(p.cena), 0);
+                const sumaB = b.produkty.reduce((s, p) => s + Number(p.cena), 0);
+                return sumaB - sumaA;
+            });
+
+            // 🔥 WYŚWIETLANIE
+            zamowienia.forEach((zamowienie) => {
+                const suma = zamowienie.produkty.reduce((s, p) => s + Number(p.cena), 0);
+
+                const div = document.createElement("div");
+                div.className = "zamowienie";
+
+                div.innerHTML = `
+                    <h3>Zamówienie — <strong>${suma} $ serwerowych</strong></h3>
+                    <p><strong>Status:</strong> ${zamowienie.status || "Brak"}</p>
+                    <p><strong>Nick:</strong> ${zamowienie.nick}</p>
+                    <p><strong>Email:</strong> ${zamowienie.email}</p>
+                    <p><strong>Produkty:</strong></p>
+                    <ul>
+                        ${zamowienie.produkty.map(p => `<li>${p.nazwa} – ${p.cena} $ serverowe</li>`).join("")}
+                    </ul>
+
+                    <button class="btn odbior" onclick="zmienStatus(${zamowienie.id}, 'Czeka na odbiór')">Czeka na odbiór</button>
+                    <button class="btn zrealizowane" onclick="zmienStatus(${zamowienie.id}, 'Zrealizowane')">Zrealizowane</button>
+                    <button class="btn oczekuje" onclick="zmienStatus(${zamowienie.id}, 'Oczekuje na realizację')">Oczekuje na realizację</button>
+                    <button class="btn usun" onclick="usunZamowienie(${zamowienie.id})">Usuń</button>
+                `;
+
+                kontener.appendChild(div);
+            });
+        };
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <img src="images/Logo.png">
+    </header>
+    
+    <nav>
+        <ul class="menu" id="menu">
+            <li><a href="INDEX.html">Strona główna</a></li>
+            <li><a href="onas.html">O Nas</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+            <li><a href="tworcy.html">Twórcy</a></li>
+            <li><a href="produkty.html">Produkty</a></li>
+            <li><a href="KOSZYK.html">Koszyk</a></li>
+        </ul>
+    </nav>
+
+    <section>
+        <h2>Okienko zamówienia</h2>
+        <div id="listaZamowien"></div>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Produkty – Farm Shop</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+    <style>
+      .opcje-wyboru {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        padding: 0 10%;
+      }
+
+      .opcje-wyboru a {
+        font-size: 1.2em;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .opcje-wyboru a:hover {
+        color: #0077cc;
+      }
+
+      /* Przycisk KOD */
+      #kodBtn {
+        position:absolute;
+        right:15px;
+        top:10px;
+        background:#ffd700;
+        color:black;
+        border:none;
+        padding:8px 15px;
+        border-radius:5px;
+        font-weight:bold;
+        cursor:pointer;
+      }
+
+      /* Modal */
+      .modal {
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        background:rgba(0,0,0,0.6);
+        display:none;
+        justify-content:center;
+        align-items:center;
+        z-index:9999;
+      }
+
+      .modal-content {
+        background:white;
+        padding:30px;
+        border-radius:8px;
+        text-align:center;
+        width:90%;
+        max-width:400px;
+        box-shadow:0 0 10px rgba(0,0,0,0.3);
+      }
+
+      .modal-content input {
+        padding:10px;
+        width:90%;
+        margin-bottom:15px;
+        border:1px solid #ccc;
+        border-radius:4px;
+      }
+
+      .modal-buttons button {
+        padding:10px 20px;
+        margin:0 10px;
+        border:none;
+        border-radius:4px;
+        cursor:pointer;
+        font-weight:bold;
+      }
+
+      .modal-buttons button:first-child { background:#007700; color:white; }
+      .modal-buttons button:last-child { background:#990000; color:white; }
+    </style>
+
+    <script>
+      function pokazKod() {
+        document.getElementById("hasloModal").style.display = "flex";
+      }
+
+      function sprawdzKod() {
+        const kod = document.getElementById("kodInput").value;
+
+        if (kod === "1337") {
+          window.location.href = "zamowienie.html";
+        } else {
+          alert("Błędny kod!");
+        }
+      }
+
+      function zamknijKod() {
+        document.getElementById("hasloModal").style.display = "none";
+      }
+    </script>
+
+  </head>
+  <body>
+
+    <header>
+      <img src="images/Logo.png">
+    </header>
+
+    <nav>
+
+      <!-- 🔥 PRZYCISK KODU -->
+      <button id="kodBtn" onclick="pokazKod()">KOD</button>
+
+      <ul class="menu" id="menu">
+        <li><a href="INDEX.html">Strona główna</a></li>
+        <li><a href="onas.html">O Nas</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li><a href="tworcy.html">Twórcy</a></li>
+        <li><a href="produkty.html">Produkty</a></li>
+        <li><a href="KOSZYK.html">Koszyk</a></li>
+      </ul>
+
+    </nav>
+
+    <section>
+      <h2>Opcje do wyboru</h2>
+      <div class="opcje-wyboru">
+        <a href="craftcube.html">Craftcube.pl</a>
+        <a href="Anarchia.html">Anarchia.gg</a>
+      </div>
+    </section>
+
+    <!-- 🔥 MODAL Z KODEM -->
+    <div id="hasloModal" class="modal">
+      <div class="modal-content">
+        <h2>Wpisz kod dostępu</h2>
+        <input type="password" id="kodInput" placeholder="Wpisz kod...">
+
+        <div class="modal-buttons">
+          <button onclick="sprawdzKod()">Zatwierdź</button>
+          <button onclick="zamknijKod()">Anuluj</button>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

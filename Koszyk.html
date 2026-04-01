@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+ <link rel="stylesheet" href="style.css" type="text/css">
+  <title>Koszyk – Deltymc</title>
+
+  <style>
+    body { font-family: Arial; background:#f4f4f4; margin:0; padding:0; }
+    nav { background:#2c2c2c; box-shadow:0 2px 4px rgba(0,0,0,0.2); position:relative; }
+    .menu { list-style:none; margin:0; padding:10px 0; display:flex; justify-content:center; }
+    .menu li { margin:0 20px; }
+    .menu li a { color:white; text-decoration:none; font-weight:bold; font-size:1.1em; }
+    .menu li a:hover { color:#ffd700; }
+    .menu-underline { height:3px; background:#ffd700; width:100%; }
+
+    section {
+      padding:20px; background:white; max-width:600px; margin:30px auto;
+      border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+
+    ul { list-style:none; padding-left:0; }
+    li { margin-bottom:10px; font-size:1.1em; }
+
+    .btn-remove { padding:6px 12px; margin-left:10px; background:#cc0000; color:white; border:none; border-radius:4px; cursor:pointer; }
+    .koszyk-buttons { display:flex; justify-content:space-between; margin-top:20px; gap:10px; }
+    .btn-clear { background:#990000; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; flex:1; }
+    .btn-zamow { background:#007700; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; flex:1; }
+
+    .modal {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.6); display:none; justify-content:center; align-items:center; z-index:9999;
+    }
+
+    .modal-content {
+      background:white; padding:30px; border-radius:8px; text-align:center;
+      width:90%; max-width:400px; box-shadow:0 0 10px rgba(0,0,0,0.3);
+      position:relative;
+    }
+
+    .modal-content input {
+      padding:10px; width:90%; margin-bottom:15px; border:1px solid #ccc; border-radius:4px;
+    }
+
+    .modal-buttons button {
+      padding:10px 20px; margin:0 10px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;
+    }
+
+    .modal-buttons button:first-child { background:#007700; color:white; }
+    .modal-buttons button:last-child { background:#990000; color:white; }
+
+    #timer {
+      font-size:1.2em;
+      margin-top:10px;
+      font-weight:bold;
+      color:#444;
+    }
+
+    .btn-cofnij {
+      margin-top:20px; padding:12px 20px; background:#cc0000; color:white;
+      border:none; border-radius:6px; cursor:pointer; font-size:1.1em; font-weight:bold;
+    }
+
+    .btn-cofnij:hover { background:#aa0000; }
+
+    .close-x {
+      position:absolute;
+      top:10px;
+      right:10px;
+      background:none;
+      border:none;
+      font-size:22px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    /* 🔥 PRZYCISK KODU */
+    #kodBtn {
+      position:absolute;
+      right:15px;
+      top:10px;
+      background:#ffd700;
+      color:black;
+      border:none;
+      padding:8px 15px;
+      border-radius:5px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+  </style>
+
+  <script>
+    function pokazKoszyk() {
+      let koszyk = JSON.parse(localStorage.getItem("koszyk")) || [];
+      let lista = document.getElementById("lista");
+      lista.innerHTML = "";
+      let suma = 0;
+
+      if (koszyk.length === 0) {
+        lista.innerHTML = "<li>Koszyk jest pusty.</li>";
+      } else {
+        koszyk.forEach((item, index) => {
+          let li = document.createElement("li");
+          li.textContent = `${item.nazwa} – ${item.cena} $ serverowe`;
+          suma += item.cena;
+
+          let btn = document.createElement("button");
+          btn.textContent = "Usuń";
+          btn.className = "btn-remove";
+          btn.onclick = () => {
+            koszyk.splice(index, 1);
+            localStorage.setItem("koszyk", JSON.stringify(koszyk));
+            pokazKoszyk();
+          };
+
+          li.appendChild(btn);
+          lista.appendChild(li);
+        });
+
+        let sumaElem = document.createElement("p");
+        sumaElem.className = "suma";
+        sumaElem.innerHTML = `Łączna wartość: ${suma} $ serverowe`;
+        lista.appendChild(sumaElem);
+      }
+    }
+
+    function wyczyscKoszyk() {
+      localStorage.removeItem("koszyk");
+      pokazKoszyk();
+    }
+
+    function zlozZamowienie() {
+      let koszyk = JSON.parse(localStorage.getItem("koszyk")) || [];
+      if (koszyk.length === 0) {
+        alert("Koszyk jest pusty.");
+        return;
+      }
+
+      document.getElementById("zamowModal").style.display = "flex";
+    }
+
+    function zamknijModal() {
+      document.getElementById("zamowModal").style.display = "none";
+    }
+
+    function potwierdzZamowienie() {
+      const nick = document.getElementById("nickInput").value.trim();
+      const email = document.getElementById("emailInput").value.trim();
+      const koszyk = JSON.parse(localStorage.getItem("koszyk")) || [];
+
+      if (!nick || !email) {
+        alert("Uzupełnij wszystkie pola.");
+        return;
+      }
+
+      const data = new Date().toLocaleString("pl-PL");
+
+      const noweZamowienie = {
+        id: Date.now(),
+        nick: nick,
+        email: email,
+        produkty: koszyk,
+        data: data,
+        status: "Oczekujące na realizację"
+      };
+
+      let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
+      zamowienia.push(noweZamowienie);
+      localStorage.setItem("zamowienia", JSON.stringify(zamowienia));
+
+      localStorage.setItem("mojeZamowienie", JSON.stringify(noweZamowienie));
+
+      localStorage.removeItem("koszyk");
+      pokazKoszyk();
+
+      document.getElementById("zamowModal").style.display = "none";
+      document.getElementById("cofnijModal").style.display = "flex";
+
+      startTimer();
+    }
+
+    let czas = 60;
+    let interval;
+
+    const alarm = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+
+    function startTimer() {
+      const timer = document.getElementById("timer");
+      czas = 60;
+
+      interval = setInterval(() => {
+        czas--;
+        timer.textContent = "Pozostały czas: " + czas + "s";
+
+        if (czas <= 0) {
+          clearInterval(interval);
+          alarm.play();
+          document.getElementById("cofnijModal").style.display = "none";
+          timer.textContent = "Czas minął!";
+        }
+      }, 1000);
+    }
+
+    function cofniecie() {
+      clearInterval(interval);
+
+      const moje = JSON.parse(localStorage.getItem("mojeZamowienie"));
+      let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
+
+      zamowienia = zamowienia.filter(z => z.id !== moje.id);
+      localStorage.setItem("zamowienia", JSON.stringify(zamowienia));
+
+      localStorage.removeItem("mojeZamowienie");
+      localStorage.removeItem("koszyk");
+
+      document.getElementById("cofnijModal").style.display = "none";
+      alert("Zamówienie anulowane.");
+
+      pokazKoszyk();
+    }
+
+    function zamknijCofnij() {
+      clearInterval(interval);
+      document.getElementById("cofnijModal").style.display = "none";
+    }
+
+    /* 🔥 MODAL KODU */
+    function pokazKod() {
+      document.getElementById("hasloModal").style.display = "flex";
+    }
+
+    function sprawdzKod() {
+      const kod = document.getElementById("kodInput").value;
+
+      if (kod === "1337") {
+        window.location.href = "zamowienie.html";
+      } else {
+        alert("Błędny kod!");
+      }
+    }
+
+    function zamknijKod() {
+      document.getElementById("hasloModal").style.display = "none";
+    }
+
+    window.onload = pokazKoszyk;
+  </script>
+</head>
+
+<body>
+<header><img src="images/Logo.png"></header>
+
+<nav>
+  <button id="kodBtn" onclick="pokazKod()">KOD</button>
+
+  <ul class="menu" id="menu">
+    <li><a href="INDEX.html">Strona główna</a></li>
+    <li><a href="onas.html">O Nas</a></li>
+    <li><a href="kontakt.html">Kontakt</a></li>
+    <li><a href="tworcy.html">Twórcy</a></li>
+    <li><a href="produkty.html">Produkty</a></li>
+    <li><a href="KOSZYK.html">Koszyk</a></li>
+  </ul>
+
+ 
+</nav>
+
+<section>
+  <h2>Twój koszyk</h2>
+  <ul id="lista"></ul>
+  <div class="koszyk-buttons">
+    <button class="btn-clear" onclick="wyczyscKoszyk()">Wyczyść cały koszyk</button>
+    <button class="btn-zamow" onclick="zlozZamowienie()">Zamów</button>
+  </div>
+</section>
+
+<!-- Modal danych -->
+<div id="zamowModal" class="modal">
+  <div class="modal-content">
+    <h2>Dane do zamówienia</h2>
+    <input type="text" id="nickInput" placeholder="Nick z Minecrafta" />
+    <input type="email" id="emailInput" placeholder="Email" />
+    <div class="modal-buttons">
+      <button onclick="potwierdzZamowienie()">Potwierdź</button>
+      <button onclick="zamknijModal()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal COFNIJ -->
+<div id="cofnijModal" class="modal">
+  <div class="modal-content">
+    <button class="close-x" onclick="zamknijCofnij()">✖</button>
+
+    <h2>Zamówienie zostało złożone!</h2>
+    <p>Masz 1 minutę, aby anulować zamówienie.</p>
+
+    <div id="timer">Pozostały czas: 60s</div>
+
+    <button class="btn-cofnij" onclick="cofniecie()">COFNIJ</button>
+  </div>
+</div>
+
+<!-- 🔥 MODAL Z KODEM -->
+<div id="hasloModal" class="modal">
+  <div class="modal-content">
+    <h2>Wpisz kod dostępu</h2>
+    <input type="password" id="kodInput" placeholder="Wpisz kod...">
+
+    <div class="modal-buttons">
+      <button onclick="sprawdzKod()">Zatwierdź</button>
+      <button onclick="zamknijKod()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
