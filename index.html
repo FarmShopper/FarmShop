@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
- <link rel="stylesheet" href="style.css" type="text/css">
-  <title> Strona główna - Oficjalna Strona FARM SHOP</title>
+  <meta charset="UTF-8">
+  <title>Strona główna - Oficjalna Strona FARM SHOP</title>
+  <link rel="stylesheet" href="style.css" type="text/css">
 
   <style>
-    body { font-family: Arial; background:#f4f4f4; margin:0; padding:0; }
+    body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:0; }
     nav { background:#2c2c2c; box-shadow:0 2px 4px rgba(0,0,0,0.2); position:relative; }
     .menu { list-style:none; margin:0; padding:10px 0; display:flex; justify-content:center; }
     .menu li { margin:0 20px; }
@@ -17,15 +17,8 @@
     section {
       padding:20px; background:white; max-width:600px; margin:30px auto;
       border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);
+      text-align:center;
     }
-
-    ul { list-style:none; padding-left:0; }
-    li { margin-bottom:10px; font-size:1.1em; }
-
-    .btn-remove { padding:6px 12px; margin-left:10px; background:#cc0000; color:white; border:none; border-radius:4px; cursor:pointer; }
-    .koszyk-buttons { display:flex; justify-content:space-between; margin-top:20px; gap:10px; }
-    .btn-clear { background:#990000; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; flex:1; }
-    .btn-zamow { background:#007700; color:white; padding:10px; border:none; border-radius:4px; cursor:pointer; flex:1; }
 
     .modal {
       position:fixed; top:0; left:0; width:100%; height:100%;
@@ -49,32 +42,6 @@
     .modal-buttons button:first-child { background:#007700; color:white; }
     .modal-buttons button:last-child { background:#990000; color:white; }
 
-    #timer {
-      font-size:1.2em;
-      margin-top:10px;
-      font-weight:bold;
-      color:#444;
-    }
-
-    .btn-cofnij {
-      margin-top:20px; padding:12px 20px; background:#cc0000; color:white;
-      border:none; border-radius:6px; cursor:pointer; font-size:1.1em; font-weight:bold;
-    }
-
-    .btn-cofnij:hover { background:#aa0000; }
-
-    .close-x {
-      position:absolute;
-      top:10px;
-      right:10px;
-      background:none;
-      border:none;
-      font-size:22px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    /* ?? PRZYCISK KODU */
     #kodBtn {
       position:absolute;
       right:15px;
@@ -88,42 +55,41 @@
       cursor:pointer;
     }
   </style>
-
 </head>
 
 <body>
-    <header>
-        <img src="images/Logo.png">
-    </header>
+  <header>
+    <img src="images/Logo.png" alt="Farm Shop Logo">
+  </header>
 
   <nav>
     <button id="kodBtn" onclick="pokazModal()">KOD</button>
 
-  <ul class="menu" id="menu">
-    <li><a href="index.html">Strona główna</a></li>
-    <li><a href="onas.html">O Nas</a></li>
-    <li><a href="kontakt.html">Kontakt</a></li>
-    <li><a href="tworcy.html">Twórcy</a></li>
-    <li><a href="produkty.html">Produkty</a></li>
-    <li><a href="koszyk.html">Koszyk</a></li>
-  </ul>
+    <ul class="menu" id="menu">
+      <li><a href="index.html">Strona główna</a></li>
+      <li><a href="onas.html">O Nas</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="tworcy.html">Twórcy</a></li>
+      <li><a href="produkty.html">Produkty</a></li>
+      <li><a href="koszyk.html">Koszyk</a></li>
+    </ul>
 
-    
+    <div class="menu-underline"></div>
   </nav>
 
   <section>
     <h1>Witaj na stronie FARM SHOP</h1>
-    <p>Rozpocznij zakupy lub wpisz kod, aby uzyskaÄ‡ dostÄ™p do zamÃ³wieÅ„.</p>
+    <p>Rozpocznij zakupy lub wpisz kod, aby uzyskać dostęp do zamówień.</p>
   </section>
 
-  <!-- ðŸ”¥ MODAL Z KODEM DOSTÄ˜PU -->
+  <!-- MODAL Z KODEM DOSTĘPU -->
   <div id="hasloModal" class="modal">
     <div class="modal-content">
-      <h2>Wpisz kod dost?pu</h2>
+      <h2>Wpisz kod dostępu</h2>
       <input type="password" id="kodInput" placeholder="Wpisz kod...">
 
       <div class="modal-buttons">
-        <button onclick="sprawdzKod()">ZatwierdÅº</button>
+        <button onclick="sprawdzKod()">Zatwierdź</button>
         <button onclick="zamknijModal()">Anuluj</button>
       </div>
     </div>
@@ -135,12 +101,12 @@
     }
 
     function sprawdzKod() {
-      const kod = document.getElementById("kodInput").value;
+      const kod = document.getElementById("kodInput").value.trim();
 
       if (kod === "1337") {
-        window.location.href = "zamowienie.html"; // <-- tu ustaw stronÄ™ zamÃ³wieÅ„
+        window.location.href = "zamowienie.html";
       } else {
-        alert("BÅ‚Ä™dny kod!");
+        alert("Błędny kod!");
       }
     }
 
@@ -148,6 +114,5 @@
       document.getElementById("hasloModal").style.display = "none";
     }
   </script>
-
 </body>
 </html>
