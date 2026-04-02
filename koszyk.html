@@ -246,7 +246,27 @@
     }
 
     window.onload = pokazKoszyk;
+
+function sprawdzKod() {
+  const kod = document.getElementById("kodInput").value;
+
+  if (kod === "1337") {
+
+    // 🔥 DAJEMY DOSTĘP DO PANELU ADMINA
+    localStorage.setItem("hasAccess", "true");
+
+    // 🔥 ZAPISUJEMY CZAS LOGOWANIA
+    localStorage.setItem("adminLoginTime", Date.now());
+
+    // 🔥 PRZENOSIMY DO PANELU
+    window.location.href = "zamowienie.html?v=" + Date.now();
+
+  } else {
+    alert("Błędny kod!");
+  }
+}
 </script>
+
 </head>
 
 <body>
