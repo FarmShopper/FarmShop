@@ -21,7 +21,7 @@
     </style>
 
     <script>
-        /* 🔒 ZABEZPIECZENIE PANELU — poprawione */
+        /* 🔒 ZABEZPIECZENIE PANELU — FINAL */
         document.addEventListener("DOMContentLoaded", () => {
 
             // jeśli nie ma dostępu → wyrzuć na index
@@ -30,7 +30,7 @@
                 return;
             }
 
-            // automatyczne wylogowanie po 2h (opcjonalne)
+            // automatyczne wylogowanie po 2h
             const loginTime = Number(localStorage.getItem("adminLoginTime"));
             if (Date.now() - loginTime > 2 * 60 * 60 * 1000) {
                 localStorage.removeItem("hasAccess");
@@ -71,20 +71,17 @@
                 return;
             }
 
-            // dodaj ID jeśli brak
             zamowienia.forEach(z => {
                 if (!z.id) z.id = Date.now() + Math.random();
             });
             zapisz(zamowienia);
 
-            // sortowanie po sumie
             zamowienia.sort((a, b) => {
                 const sumaA = a.produkty.reduce((s, p) => s + Number(p.cena), 0);
                 const sumaB = b.produkty.reduce((s, p) => s + Number(p.cena), 0);
                 return sumaB - sumaA;
             });
 
-            // wyświetlanie
             zamowienia.forEach((zamowienie) => {
                 const suma = zamowienie.produkty.reduce((s, p) => s + Number(p.cena), 0);
 
@@ -133,6 +130,7 @@
 
 </body>
 </html>
+
 
 
 
