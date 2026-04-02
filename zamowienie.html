@@ -21,10 +21,12 @@
     </style>
 
     <script>
-        // 🔒 ZABEZPIECZENIE PANELU
-        if (localStorage.getItem("hasAccess") !== "true") {
-            window.location.href = "index.html";
-        }
+        /* 🔒 ZABEZPIECZENIE PANELU — poprawione */
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("hasAccess") !== "true") {
+                window.location.href = "index.html";
+            }
+        });
 
         function zapisz(zamowienia) {
             localStorage.setItem("zamowienia", JSON.stringify(zamowienia));
@@ -123,5 +125,6 @@
 
 </body>
 </html>
+
 
 
