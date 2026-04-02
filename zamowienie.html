@@ -23,7 +23,17 @@
     <script>
         /* 🔒 ZABEZPIECZENIE PANELU — poprawione */
         document.addEventListener("DOMContentLoaded", () => {
+
+            // jeśli nie ma dostępu → wyrzuć na index
             if (localStorage.getItem("hasAccess") !== "true") {
+                window.location.href = "index.html";
+                return;
+            }
+
+            // automatyczne wylogowanie po 2h (opcjonalne)
+            const loginTime = Number(localStorage.getItem("adminLoginTime"));
+            if (Date.now() - loginTime > 2 * 60 * 60 * 1000) {
+                localStorage.removeItem("hasAccess");
                 window.location.href = "index.html";
             }
         });
@@ -34,7 +44,6 @@
 
         function zmienStatus(id, status) {
             let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
-
             const index = zamowienia.findIndex(z => z.id === id);
             if (index === -1) return;
 
@@ -45,7 +54,6 @@
 
         function usunZamowienie(id) {
             let zamowienia = JSON.parse(localStorage.getItem("zamowienia")) || [];
-
             const index = zamowienia.findIndex(z => z.id === id);
             if (index === -1) return;
 
@@ -63,20 +71,20 @@
                 return;
             }
 
-            // 🔥 DODAJ ID JEŚLI BRAK
+            // dodaj ID jeśli brak
             zamowienia.forEach(z => {
                 if (!z.id) z.id = Date.now() + Math.random();
             });
             zapisz(zamowienia);
 
-            // 🔥 SORTOWANIE PO SUMIE
+            // sortowanie po sumie
             zamowienia.sort((a, b) => {
                 const sumaA = a.produkty.reduce((s, p) => s + Number(p.cena), 0);
                 const sumaB = b.produkty.reduce((s, p) => s + Number(p.cena), 0);
                 return sumaB - sumaA;
             });
 
-            // 🔥 WYŚWIETLANIE
+            // wyświetlanie
             zamowienia.forEach((zamowienie) => {
                 const suma = zamowienie.produkty.reduce((s, p) => s + Number(p.cena), 0);
 
@@ -125,6 +133,7 @@
 
 </body>
 </html>
+
 
 
 
