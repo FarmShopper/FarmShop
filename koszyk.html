@@ -2,17 +2,16 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
- <link rel="stylesheet" href="style.css" type="text/css">
-  <title>Koszyk – Deltymc</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+<title>Koszyk – Deltymc</title>
 
-  <style>
+<style>
     body { font-family: Arial; background:#f4f4f4; margin:0; padding:0; }
     nav { background:#2c2c2c; box-shadow:0 2px 4px rgba(0,0,0,0.2); position:relative; }
     .menu { list-style:none; margin:0; padding:10px 0; display:flex; justify-content:center; }
     .menu li { margin:0 20px; }
     .menu li a { color:white; text-decoration:none; font-weight:bold; font-size:1.1em; }
     .menu li a:hover { color:#ffd700; }
-    .menu-underline { height:3px; background:#ffd700; width:100%; }
 
     section {
       padding:20px; background:white; max-width:600px; margin:30px auto;
@@ -74,7 +73,6 @@
       cursor:pointer;
     }
 
-    /* 🔥 PRZYCISK KODU */
     #kodBtn {
       position:absolute;
       right:15px;
@@ -87,9 +85,9 @@
       font-weight:bold;
       cursor:pointer;
     }
-  </style>
+</style>
 
-  <script>
+<script>
     function pokazKoszyk() {
       let koszyk = JSON.parse(localStorage.getItem("koszyk")) || [];
       let lista = document.getElementById("lista");
@@ -233,6 +231,10 @@
       const kod = document.getElementById("kodInput").value;
 
       if (kod === "1337") {
+
+        // 🔥 DAJEMY DOSTĘP DO PANELU ADMINA
+        localStorage.setItem("hasAccess", "true");
+
         window.location.href = "zamowienie.html";
       } else {
         alert("Błędny kod!");
@@ -244,7 +246,7 @@
     }
 
     window.onload = pokazKoszyk;
-  </script>
+</script>
 </head>
 
 <body>
@@ -261,8 +263,6 @@
     <li><a href="produkty.html">Produkty</a></li>
     <li><a href="koszyk.html">Koszyk</a></li>
   </ul>
-
- 
 </nav>
 
 <section>
@@ -301,7 +301,7 @@
   </div>
 </div>
 
-<!-- 🔥 MODAL Z KODEM -->
+<!-- Modal KODU -->
 <div id="hasloModal" class="modal">
   <div class="modal-content">
     <h2>Wpisz kod dostępu</h2>
@@ -313,6 +313,9 @@
     </div>
   </div>
 </div>
+
+</body>
+</html>
 
 </body>
 </html>
